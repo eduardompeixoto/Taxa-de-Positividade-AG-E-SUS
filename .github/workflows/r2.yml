@@ -1,0 +1,49 @@
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+#
+# See https://github.com/r-lib/actions/tree/master/examples#readme for
+# additional example workflows available for the R community.
+
+on:
+  schedule:
+    - cron: '5 13 * * *'
+  workflow_dispatch:
+    branches: [main]
+
+jobs:
+  render:
+    name: update_diario_esus_notifica
+
+    runs-on: ubuntu-latest
+
+    env:
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          use-public-rspm: true
+
+      - name: Install dependencies
+        run: |
+          install.packages(c("remotes", "pkgload", "pak", "writexl","httr", "jsonlite", "dplyr","qdapRegex","xlsx"))
+          remotes::install_deps(dependencies = TRUE)
+        shell: Rscript {0}
+
+      - uses: r-lib/actions/setup-pandoc@v2
+
+      - name: Execute Script
+        run: |
+          Rscript "inst/rodar_esus.R"
+
+      - name: Commit and Push
+        run: |
+          git config --local user.name "$GITHUB_ACTOR"
+          git config --local user.email "$GITHUB_ACTOR@users.noreply.github.com"
+          git add inst/planilha_esus.xlsx
+          git commit -F mensagem-comit.txt || echo "No changes to commit"
+          git push origin || echo "No changes to commit"
