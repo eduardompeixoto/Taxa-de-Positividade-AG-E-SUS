@@ -501,6 +501,6 @@ r$raca2<-r$racaCor
 r$raca2[r$racaCor!="1"]<-"Não branca"
 r$raca2[r$racaCor=="1"]<-"Branca"
 
-r
+junto
                   }
   
