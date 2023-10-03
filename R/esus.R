@@ -1,7 +1,7 @@
 esus<-function(){
 
 # Install the necessary packages if not already installed
-required_packages <- c("httr", "jsonlite", "dplyr","telegram.bot")
+required_packages <- c("httr", "jsonlite", "dplyr")
 new_packages <- required_packages[!(required_packages %in% installed.packages()[,"Package"])]
 if(length(new_packages)) install.packages(new_packages)
 
@@ -10,7 +10,6 @@ library(httr)
 library(jsonlite)
 library(dplyr)
 library(stringr)
-library(telegram.bot)
 
 # Define the base URL for the Elasticsearch API
 url <- "https://elasticsearch-saps.saude.gov.br/desc-esus-notifica-estado-rj/_search"
@@ -504,4 +503,3 @@ r$raca2[r$racaCor=="1"]<-"Branca"
 
 junto
                   }
-  
