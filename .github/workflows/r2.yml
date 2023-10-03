@@ -30,7 +30,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          install.packages(c("remotes", "pkgload", "pak", "writexl","httr", "jsonlite", "dplyr","qdapRegex","xlsx"))
+          install.packages(c("remotes", "pkgload", "pak", "writexl","httr", "jsonlite", "dplyr","qdapRegex","xlsx","telegram.bot"))
           remotes::install_deps(dependencies = TRUE)
         shell: Rscript {0}
 
