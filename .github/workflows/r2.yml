@@ -14,7 +14,7 @@ on:
 
 jobs:
   render:
-    name: update_diario_esus_notifica
+    name: Taxa_Positividade
 
     runs-on: ubuntu-latest
 
