@@ -110,14 +110,17 @@ a2<-subset(a2,a2$n_testes>1)
 
 a3<-subset(total,select = c(tipoTeste3, dataTeste3,resultado3,estado3,testes,n_testes,dataNotificacao,estado,municipio))
 a3<-subset(a3,a3$n_testes>2)
-                
+a4<-subset(total,select = c(tipoTeste4, dataTeste4,resultado4,estado4,testes,n_testes,dataNotificacao,estado,municipio))
+a4<-subset(a4,a4$n_testes>3)
+                                
 colnames(a1)<-c('TipoTeste', 'dataTeste','resultado','estado','testes','n_testes','dataNotificacao','estado','municipio')
 colnames(a2)<-c('TipoTeste', 'dataTeste','resultado','estado','testes','n_testes','dataNotificacao','estado','municipio')
 colnames(a3)<-c('TipoTeste', 'dataTeste','resultado','estado','testes','n_testes','dataNotificacao','estado','municipio')
+colnames(a4)<-c('TipoTeste', 'dataTeste','resultado','estado','testes','n_testes','dataNotificacao','estado','municipio')
 
                 a0<-subset(total,total$n_testes==0)
 total_mesmo<-NULL
-dat<-dplyr::bind_rows(a1,a2,a3)
+dat<-dplyr::bind_rows(a1,a2,a3,a4)
 
 
 dat$tipo_exames<-toupper(dat$TipoTeste)
