@@ -79,19 +79,24 @@ table(total$n_testes)
 colnames(total)<-c('tipoTeste1',
                    'tipoTeste2',
                    'tipoTeste3',             
+                   'tipoTeste4',             
 
                    'dataTeste1',
                    'dataTeste2',
                    'dataTeste3',
-                                   
+                                       'dataTeste4',
+               
 
                    'resultado1',
                    'resultado2',
                    'resultado3',                 
+                   'resultado4',                 
 
                    'estado1',
                    'estado2',
-                   'estado3',                  
+                   'estado3',
+                                      'estado4',                  
+
 
                    'sexo','outrosSintomas','codigoEstrategiaCovid','@timestamp','dataTeste','dataSegundaReforcoDose','tipoTeste','resultadoTesteSorologicoIgA','condicoes','resultadoTeste','loteSegundaReforcoDose','@version','dataPrimeiraDose','codigoContemComunidadeTradicional','dataSegundaDose','cbo','outroLocalRealizacaoTestagem','dataEncerramento','idCollection','qualAntiviral','outrasCondicoes','estadoNotificacao','evolucaoCaso','estadoTeste','dataReforcoDose','codigoBuscaAtivaAssintomatico','outroBuscaAtivaAssintomatico','municipio','resultadoTesteSorologicoIgG','codigoDosesVacina','classificacaoFinal','estado','municipioIBGE','estadoIBGE','sintomas','id','codigoQualAntiviral','laboratorioSegundaReforcoDose','dataInicioSintomas','outroAntiviral','resultadoTesteSorologicoIgM','idade','codigoTriagemPopulacaoEspecifica','testes','estrangeiro','profissionalSaude','dataTesteSorologico','municipioNotificacaoIBGE','resultadoTesteSorologicoTotais','estadoNotificacaoIBGE','outroTriagemPopulacaoEspecifica','codigoRecebeuVacina','racaCor','tipoTesteSorologico','dataNotificacao','codigoRecebeuAntiviral','registroAtual','dataInicioTratamento','profissionalSeguranca','municipioNotificacao','recebeuAntiviral','codigoLocalRealizacaoTestagem','testes_list','n_testes')
 
