@@ -74,7 +74,12 @@ total<-dplyr::bind_cols(tipoTeste,dataTeste,resultadoTeste,estadoTeste,dat)
 total$n_testes<-str_count(total$testes,"tipo")
 total<-as.data.frame(total)
 table(total$n_testes)
+a<- max(as.data.frame(table(total$n_testes))$Freq)
 
+
+
+# Assuming you have already defined n_testes
+n_testes <- a  # Replace with your actual number of tests
 
 # Create an empty vector to store column names
 col_names <- c()
