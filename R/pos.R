@@ -76,30 +76,87 @@ total<-as.data.frame(total)
 table(total$n_testes)
 
 
-colnames(total)<-c('tipoTeste1',
-                   'tipoTeste2',
-                   'tipoTeste3',             
-                   'tipoTeste4',             
+# Create an empty vector to store column names
+col_names <- c()
 
-                   'dataTeste1',
-                   'dataTeste2',
-                   'dataTeste3',
-                                       'dataTeste4',
-               
+# Loop through the range of tests and generate column names
+for (i in 1:n_testes) {
+  col_names <- c(col_names, paste('tipoTeste', i), paste('dataTeste', i), paste('resultado', i), paste('estado', i))
+}
 
-                   'resultado1',
-                   'resultado2',
-                   'resultado3',                 
-                   'resultado4',                 
+# Add additional columns
+additional_cols <- c(
+  'sexo',
+  'outrosSintomas',
+  'codigoEstrategiaCovid',
+  '@timestamp',
+  'dataTeste',
+  'dataSegundaReforcoDose',
+  'tipoTeste',
+  'resultadoTesteSorologicoIgA',
+  'condicoes',
+  'resultadoTeste',
+  'loteSegundaReforcoDose',
+  '@version',
+  'dataPrimeiraDose',
+  'codigoContemComunidadeTradicional',
+  'dataSegundaDose',
+  'cbo',
+  'outroLocalRealizacaoTestagem',
+  'dataEncerramento',
+  'idCollection',
+  'qualAntiviral',
+  'outrasCondicoes',
+  'estadoNotificacao',
+  'evolucaoCaso',
+  'estadoTeste',
+  'dataReforcoDose',
+  'codigoBuscaAtivaAssintomatico',
+  'outroBuscaAtivaAssintomatico',
+  'municipio',
+  'resultadoTesteSorologicoIgG',
+  'codigoDosesVacina',
+  'classificacaoFinal',
+  'estado',
+  'municipioIBGE',
+  'estadoIBGE',
+  'sintomas',
+  'id',
+  'codigoQualAntiviral',
+  'laboratorioSegundaReforcoDose',
+  'dataInicioSintomas',
+  'outroAntiviral',
+  'resultadoTesteSorologicoIgM',
+  'idade',
+  'codigoTriagemPopulacaoEspecifica',
+  'testes',
+  'estrangeiro',
+  'profissionalSaude',
+  'dataTesteSorologico',
+  'municipioNotificacaoIBGE',
+  'resultadoTesteSorologicoTotais',
+  'estadoNotificacaoIBGE',
+  'outroTriagemPopulacaoEspecifica',
+  'codigoRecebeuVacina',
+  'racaCor',
+  'tipoTesteSorologico',
+  'dataNotificacao',
+  'codigoRecebeuAntiviral',
+  'registroAtual',
+  'dataInicioTratamento',
+  'profissionalSeguranca',
+  'municipioNotificacao',
+  'recebeuAntiviral',
+  'codigoLocalRealizacaoTestagem',
+  'testes_list',
+  'n_testes'
+)
 
-                   'estado1',
-                   'estado2',
-                   'estado3',
-                                      'estado4',                  
+# Combine the dynamically generated column names with the additional columns
+total_cols <- c(col_names, additional_cols)
 
-
-                   'sexo','outrosSintomas','codigoEstrategiaCovid','@timestamp','dataTeste','dataSegundaReforcoDose','tipoTeste','resultadoTesteSorologicoIgA','condicoes','resultadoTeste','loteSegundaReforcoDose','@version','dataPrimeiraDose','codigoContemComunidadeTradicional','dataSegundaDose','cbo','outroLocalRealizacaoTestagem','dataEncerramento','idCollection','qualAntiviral','outrasCondicoes','estadoNotificacao','evolucaoCaso','estadoTeste','dataReforcoDose','codigoBuscaAtivaAssintomatico','outroBuscaAtivaAssintomatico','municipio','resultadoTesteSorologicoIgG','codigoDosesVacina','classificacaoFinal','estado','municipioIBGE','estadoIBGE','sintomas','id','codigoQualAntiviral','laboratorioSegundaReforcoDose','dataInicioSintomas','outroAntiviral','resultadoTesteSorologicoIgM','idade','codigoTriagemPopulacaoEspecifica','testes','estrangeiro','profissionalSaude','dataTesteSorologico','municipioNotificacaoIBGE','resultadoTesteSorologicoTotais','estadoNotificacaoIBGE','outroTriagemPopulacaoEspecifica','codigoRecebeuVacina','racaCor','tipoTesteSorologico','dataNotificacao','codigoRecebeuAntiviral','registroAtual','dataInicioTratamento','profissionalSeguranca','municipioNotificacao','recebeuAntiviral','codigoLocalRealizacaoTestagem','testes_list','n_testes')
-
+# Set the column names for your data frame
+colnames(total) <- total_cols
 total$n_testes<-as.numeric(total$n_testes)
 
 a1<-subset(total,select = c('tipoTeste1', 'dataTeste1','resultado1','estado1','testes','n_testes','dataNotificacao',"estado","municipio"))
