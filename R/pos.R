@@ -74,12 +74,8 @@ total<-dplyr::bind_cols(tipoTeste,dataTeste,resultadoTeste,estadoTeste,dat)
 total$n_testes<-str_count(total$testes,"tipo")
 total<-as.data.frame(total)
 table(total$n_testes)
-a<- max(as.data.frame(table(total$n_testes))$Freq)
-
-
-
 # Assuming you have already defined n_testes
-n_testes <- a  # Replace with your actual number of tests
+n_testes <- max(as.data.frame(total$n_testes))  # Replace with your actual number of tests
 
 # Create an empty vector to store column names
 col_names <- c()
@@ -162,27 +158,90 @@ total_cols <- c(col_names, additional_cols)
 
 # Set the column names for your data frame
 colnames(total) <- total_cols
+
+colnames(total)<-stringr::str_replace_all(colnames(total)," ","")
+
 total$n_testes<-as.numeric(total$n_testes)
 
-a1<-subset(total,select = c('tipoTeste1', 'dataTeste1','resultado1','estado1','testes','n_testes','dataNotificacao',"estado","municipio"))
-a1<-subset(a1,a1$n_testes==1)
 
-a2<-subset(total,select = c(tipoTeste2, dataTeste2,resultado2,estado2,testes,n_testes,dataNotificacao,estado,municipio))
-a2<-subset(a2,a2$n_testes>1)
+subset_list <- list()
 
-a3<-subset(total,select = c(tipoTeste3, dataTeste3,resultado3,estado3,testes,n_testes,dataNotificacao,estado,municipio))
-a3<-subset(a3,a3$n_testes>2)
-a4<-subset(total,select = c(tipoTeste4, dataTeste4,resultado4,estado4,testes,n_testes,dataNotificacao,estado,municipio))
-a4<-subset(a4,a4$n_testes>3)
-                                
-colnames(a1)<-c('TipoTeste', 'dataTeste','resultado','estado','testes','n_testes','dataNotificacao','estado','municipio')
-colnames(a2)<-c('TipoTeste', 'dataTeste','resultado','estado','testes','n_testes','dataNotificacao','estado','municipio')
-colnames(a3)<-c('TipoTeste', 'dataTeste','resultado','estado','testes','n_testes','dataNotificacao','estado','municipio')
-colnames(a4)<-c('TipoTeste', 'dataTeste','resultado','estado','testes','n_testes','dataNotificacao','estado','municipio')
+# Define the number of subsets you want to create
+num_subsets <-n_testes
 
-                a0<-subset(total,total$n_testes==0)
+# Loop to create the subsets
+for (i in 1:num_subsets) {
+  select_columns <- c(paste0("tipoTeste", i), paste0("dataTeste", i), paste0("resultado", i), 
+                      paste0("estado", i), "testes", "n_testes", "dataNotificacao", "estado", "municipio")
+  
+  condition <- paste0("n_testes>", i - 1)
+  
+  # Remove spaces from column names
+  select_columns <- gsub(" ", "", select_columns)
+  
+  subset_list[[i]] <- subset(total, select = select_columns)
+  subset_list[[i]] <- subset(subset_list[[i]], subset_list[[i]][, "n_testes"] > (i - 1))
+}
+
+
+
+# Create a list to store the subsets
+subset_list <- list()
+
+# Define the number of subsets you want to create
+num_subsets <- n_testes
+
+# Define the common column names
+common_column_names <- c('TipoTeste', 'dataTeste', 'resultado', 'estado', 'testes', 'n_testes', 'dataNotificacao', 'estado', 'municipio')
+
+# Loop to create the subsets
+for (i in 1:num_subsets) {
+  select_columns <- c(paste0("tipoTeste", i), paste0("dataTeste", i), paste0("resultado", i), 
+                      paste0("estado", i), "testes", "n_testes", "dataNotificacao", "estado", "municipio")
+  
+  condition <- paste0("n_testes>", i - 1)
+  
+  # Remove spaces from column names
+  select_columns <- gsub(" ", "", select_columns)
+  
+  subset_list[[i]] <- subset(total, select = select_columns)
+  subset_list[[i]] <- subset(subset_list[[i]], subset_list[[i]][, "n_testes"] > (i - 1))
+  
+  # Rename the columns based on the common_column_names
+  colnames(subset_list[[i]]) <- common_column_names
+}
+
+a0<-subset(total,total$n_testes==0)
 total_mesmo<-NULL
-dat<-dplyr::bind_rows(a1,a2,a3,a4)
+
+library(dplyr)
+
+# Create a list to store the subsets
+subset_list <- list()
+
+# Define the number of subsets you want to create
+num_subsets <- n_testes
+
+# Loop to create the subsets and store them in subset_list
+for (i in 1:num_subsets) {
+  select_columns <- c(paste0("tipoTeste", i), paste0("dataTeste", i), paste0("resultado", i), 
+                      paste0("estado", i), "testes", "n_testes", "dataNotificacao", "estado", "municipio")
+  
+  condition <- paste0("n_testes>", i - 1)
+  
+  # Remove spaces from column names
+  select_columns <- gsub(" ", "", select_columns)
+  
+  subset_list[[i]] <- subset(total, select = select_columns)
+  subset_list[[i]] <- subset(subset_list[[i]], subset_list[[i]][, "n_testes"] > (i - 1))
+  
+  # Rename the columns based on the common_column_names
+  colnames(subset_list[[i]]) <- common_column_names
+}
+
+# Bind the subsets into a single dataframe
+dat <- bind_rows(subset_list)
+
 
 
 dat$tipo_exames<-toupper(dat$TipoTeste)
