@@ -1,5 +1,4 @@
 pos<-function(){
-
 # Install the necessary packages if not already installed
 required_packages <- c("httr", "jsonlite", "dplyr")
 new_packages <- required_packages[!(required_packages %in% installed.packages()[,"Package"])]
@@ -49,7 +48,7 @@ data_frames <- lapply(1:7, function(days_back) {
       }
     }
   }', days_back)
-
+  
   fetch_data(query, url, headers)
 })
 
@@ -74,174 +73,39 @@ total<-dplyr::bind_cols(tipoTeste,dataTeste,resultadoTeste,estadoTeste,dat)
 total$n_testes<-str_count(total$testes,"tipo")
 total<-as.data.frame(total)
 table(total$n_testes)
-# Assuming you have already defined n_testes
-n_testes <- max(as.data.frame(total$n_testes))  # Replace with your actual number of tests
 
-# Create an empty vector to store column names
-col_names <- c()
 
-# Loop through the range of tests and generate column names
-for (i in 1:n_testes) {
-  col_names <- c(col_names, paste('tipoTeste', i), paste('dataTeste', i), paste('resultado', i), paste('estado', i))
-}
-
-# Add additional columns
-additional_cols <- c(
-  'sexo',
-  'outrosSintomas',
-  'codigoEstrategiaCovid',
-  '@timestamp',
-  'dataTeste',
-  'dataSegundaReforcoDose',
-  'tipoTeste',
-  'resultadoTesteSorologicoIgA',
-  'condicoes',
-  'resultadoTeste',
-  'loteSegundaReforcoDose',
-  '@version',
-  'dataPrimeiraDose',
-  'codigoContemComunidadeTradicional',
-  'dataSegundaDose',
-  'cbo',
-  'outroLocalRealizacaoTestagem',
-  'dataEncerramento',
-  'idCollection',
-  'qualAntiviral',
-  'outrasCondicoes',
-  'estadoNotificacao',
-  'evolucaoCaso',
-  'estadoTeste',
-  'dataReforcoDose',
-  'codigoBuscaAtivaAssintomatico',
-  'outroBuscaAtivaAssintomatico',
-  'municipio',
-  'resultadoTesteSorologicoIgG',
-  'codigoDosesVacina',
-  'classificacaoFinal',
-  'estado',
-  'municipioIBGE',
-  'estadoIBGE',
-  'sintomas',
-  'id',
-  'codigoQualAntiviral',
-  'laboratorioSegundaReforcoDose',
-  'dataInicioSintomas',
-  'outroAntiviral',
-  'resultadoTesteSorologicoIgM',
-  'idade',
-  'codigoTriagemPopulacaoEspecifica',
-  'testes',
-  'estrangeiro',
-  'profissionalSaude',
-  'dataTesteSorologico',
-  'municipioNotificacaoIBGE',
-  'resultadoTesteSorologicoTotais',
-  'estadoNotificacaoIBGE',
-  'outroTriagemPopulacaoEspecifica',
-  'codigoRecebeuVacina',
-  'racaCor',
-  'tipoTesteSorologico',
-  'dataNotificacao',
-  'codigoRecebeuAntiviral',
-  'registroAtual',
-  'dataInicioTratamento',
-  'profissionalSeguranca',
-  'municipioNotificacao',
-  'recebeuAntiviral',
-  'codigoLocalRealizacaoTestagem',
-  'testes_list',
-  'n_testes'
-)
-
-# Combine the dynamically generated column names with the additional columns
-total_cols <- c(col_names, additional_cols)
-
-# Set the column names for your data frame
-colnames(total) <- total_cols
-
-colnames(total)<-stringr::str_replace_all(colnames(total)," ","")
+colnames(total)<-c('tipoTeste1',
+                   'tipoTeste2',
+                   'tipoTeste3',
+                   'dataTeste1',
+                   'dataTeste2',
+                   'dataTeste3',
+                   'resultado1',
+                   'resultado2',
+                   'resultado3',
+                   'estado1',
+                   'estado2',
+                   'estado3',
+                   'sexo','outrosSintomas','codigoEstrategiaCovid','@timestamp','dataTeste','dataSegundaReforcoDose','tipoTeste','resultadoTesteSorologicoIgA','condicoes','resultadoTeste','loteSegundaReforcoDose','@version','dataPrimeiraDose','codigoContemComunidadeTradicional','dataSegundaDose','cbo','outroLocalRealizacaoTestagem','dataEncerramento','idCollection','qualAntiviral','outrasCondicoes','estadoNotificacao','evolucaoCaso','estadoTeste','dataReforcoDose','codigoBuscaAtivaAssintomatico','outroBuscaAtivaAssintomatico','municipio','resultadoTesteSorologicoIgG','codigoDosesVacina','classificacaoFinal','estado','municipioIBGE','estadoIBGE','sintomas','id','codigoQualAntiviral','laboratorioSegundaReforcoDose','dataInicioSintomas','outroAntiviral','resultadoTesteSorologicoIgM','idade','codigoTriagemPopulacaoEspecifica','testes','estrangeiro','profissionalSaude','dataTesteSorologico','municipioNotificacaoIBGE','resultadoTesteSorologicoTotais','estadoNotificacaoIBGE','outroTriagemPopulacaoEspecifica','codigoRecebeuVacina','racaCor','tipoTesteSorologico','dataNotificacao','codigoRecebeuAntiviral','registroAtual','dataInicioTratamento','profissionalSeguranca','municipioNotificacao','recebeuAntiviral','codigoLocalRealizacaoTestagem','testes_list','n_testes')
 
 total$n_testes<-as.numeric(total$n_testes)
 
+a1<-subset(total,select = c('tipoTeste1', 'dataTeste1','resultado1','estado1','testes','n_testes','dataNotificacao',"estado","municipio"))
+a1<-subset(a1,a1$n_testes==1)
 
-subset_list <- list()
+a2<-subset(total,select = c(tipoTeste2, dataTeste2,resultado2,estado2,testes,n_testes,dataNotificacao,estado,municipio))
+a2<-subset(a2,a2$n_testes>1)
 
-# Define the number of subsets you want to create
-num_subsets <-n_testes
+a3<-subset(total,select = c(tipoTeste3, dataTeste3,resultado3,estado3,testes,n_testes,dataNotificacao,estado,municipio))
+a3<-subset(a3,a3$n_testes>2)
 
-# Loop to create the subsets
-for (i in 1:num_subsets) {
-  select_columns <- c(paste0("tipoTeste", i), paste0("dataTeste", i), paste0("resultado", i), 
-                      paste0("estado", i), "testes", "n_testes", "dataNotificacao", "estado", "municipio")
-  
-  condition <- paste0("n_testes>", i - 1)
-  
-  # Remove spaces from column names
-  select_columns <- gsub(" ", "", select_columns)
-  
-  subset_list[[i]] <- subset(total, select = select_columns)
-  subset_list[[i]] <- subset(subset_list[[i]], subset_list[[i]][, "n_testes"] > (i - 1))
-}
-
-
-
-# Create a list to store the subsets
-subset_list <- list()
-
-# Define the number of subsets you want to create
-num_subsets <- n_testes
-
-# Define the common column names
-common_column_names <- c('TipoTeste', 'dataTeste', 'resultado', 'estado', 'testes', 'n_testes', 'dataNotificacao', 'estado', 'municipio')
-
-# Loop to create the subsets
-for (i in 1:num_subsets) {
-  select_columns <- c(paste0("tipoTeste", i), paste0("dataTeste", i), paste0("resultado", i), 
-                      paste0("estado", i), "testes", "n_testes", "dataNotificacao", "estado", "municipio")
-  
-  condition <- paste0("n_testes>", i - 1)
-  
-  # Remove spaces from column names
-  select_columns <- gsub(" ", "", select_columns)
-  
-  subset_list[[i]] <- subset(total, select = select_columns)
-  subset_list[[i]] <- subset(subset_list[[i]], subset_list[[i]][, "n_testes"] > (i - 1))
-  
-  # Rename the columns based on the common_column_names
-  colnames(subset_list[[i]]) <- common_column_names
-}
-
+colnames(a1)<-c('TipoTeste', 'dataTeste','resultado','estado','testes','n_testes','dataNotificacao','estado','municipio')
+colnames(a2)<-c('TipoTeste', 'dataTeste','resultado','estado','testes','n_testes','dataNotificacao','estado','municipio')
+colnames(a3)<-c('TipoTeste', 'dataTeste','resultado','estado','testes','n_testes','dataNotificacao','estado','municipio')
 a0<-subset(total,total$n_testes==0)
 total_mesmo<-NULL
-
-library(dplyr)
-
-# Create a list to store the subsets
-subset_list <- list()
-
-# Define the number of subsets you want to create
-num_subsets <- n_testes
-
-# Loop to create the subsets and store them in subset_list
-for (i in 1:num_subsets) {
-  select_columns <- c(paste0("tipoTeste", i), paste0("dataTeste", i), paste0("resultado", i), 
-                      paste0("estado", i), "testes", "n_testes", "dataNotificacao", "estado", "municipio")
-  
-  condition <- paste0("n_testes>", i - 1)
-  
-  # Remove spaces from column names
-  select_columns <- gsub(" ", "", select_columns)
-  
-  subset_list[[i]] <- subset(total, select = select_columns)
-  subset_list[[i]] <- subset(subset_list[[i]], subset_list[[i]][, "n_testes"] > (i - 1))
-  
-  # Rename the columns based on the common_column_names
-  colnames(subset_list[[i]]) <- common_column_names
-}
-
-# Bind the subsets into a single dataframe
-dat <- bind_rows(subset_list)
-
+dat<-dplyr::bind_rows(a1,a2,a3)
 
 
 dat$tipo_exames<-toupper(dat$TipoTeste)
@@ -304,7 +168,7 @@ junto$cod_muni<-NA
 
 colnames(junto)<-c('dt_coleta', 'municipio', 'Total_Exames',	'Positivos','cod_muni')
 
-junto<-subset(junto,select=c(municipio,	cod_muni,	dt_coleta,	Positivos,	Total_Exames))
+junto<-subset(junto,select=c(municipio,	cod_muni,	dt_coleta,	Positivos,	Total_Exames))                   
 
 junto$cod_muni[junto$municipio=="Angra dos Reis"]<-330010
 junto$cod_muni[junto$municipio=="Aperibé"]<-330015
@@ -405,236 +269,6 @@ k<-subset(junto,junto$dt_coleta>= (Sys.Date()-7))
 junto<-k
 junto$dt_coleta<-format(junto$dt_coleta,"%d/%m/%Y")
 junto[is.na(junto)]<-0
-# xlsx::write.xlsx2(junto,file = stringr::str_replace_all(paste("antigeno_",format(Sys.Date(),"%d%m%Y"),".xlsx")," ","") ,sep="",collapse="",row.names = F)
-
-dataset<-total
-dataset$testes<-NULL
-dataset$testes_list<-NULL
-
-
-dataset$obito[stringr::str_detect(dataset$evolucaoCaso,"ITO")]<-1
-dataset$interna<-0
-dataset$interna[dataset$evolucaoCaso=="Internado"]<-1
-dataset$cardiopatia<-0
-dataset$cardiopatia[stringr::str_detect(dataset$condicoes,"Card")|stringr::str_detect(dataset$condicoes,"iperten")|stringr::str_detect(dataset$condicoes,"HAS")]<-1
-dataset$cardiopatia[stringr::str_detect(dataset$outrasCondicoes,"Card")|stringr::str_detect(dataset$outrasCondicoes,"iperten")|stringr::str_detect(dataset$outrasCondicoes,"HAS")]<-1
-#dataset$cardiopatia[is.na(dataset$condicoes)]<-0
-dataset$obesidade<-0
-dataset$obesidade[stringr::str_detect(dataset$condicoes,"Obesidade")]<-1
-dataset$obesidade[stringr::str_detect(dataset$outrasCondicoes,"Obesidade")]<-1
-
-#dataset$obesidade[is.na(dataset$condicoes)]<-0
-dataset$anosmia<-0
-dataset$anosmia[stringr::str_detect(dataset$sintomas,"fativos")]<-1
-dataset$anosmia[stringr::str_detect(dataset$outrosSintomas,"fativos")]<-1
-dataset$anosmia[stringr::str_detect(dataset$outrosSintomas,"anosmia")]<-1
-dataset$anosmia[stringr::str_detect(dataset$outrosSintomas,"cheiro")]<-1
-
-#dataset$anosmia[is.na(dataset$condicoes)]<-0
-dataset$dm<-0
-dataset$dm[stringr::str_detect(dataset$condicoes,"Diabetes")]<-1
-dataset$dm[stringr::str_detect(dataset$outrasCondicoes,"Diabetes")]<-1
-
-#dataset$dm[is.na(dataset$condicoes)]<-0
-dataset$rc<-0
-dataset$rc[stringr::str_detect(dataset$condicoes,"enais")]<-1
-dataset$rc[stringr::str_detect(dataset$outrasCondicoes,"enais")]<-1
-
-#dataset$rc[is.na(dataset$condicoes)]<-0
-dataset$drespc<-0
-dataset$drespc[stringr::str_detect(dataset$condicoes,"espirat")]<-1
-dataset$drespc[stringr::str_detect(dataset$outrasCondicoes,"espirat")]<-1
-
-#dataset$drespc[is.na(dataset$condicoes)]<-0
-dataset$gest<-0
-dataset$gest[stringr::str_detect(dataset$condicoes,"estante")]<-1
-dataset$gest[stringr::str_detect(dataset$outrasCondicoes,"estante")|stringr::str_detect(toupper(dataset$outrasCondicoes),"GRAVIDA")|stringr::str_detect(toupper(dataset$outrasCondicoes),"GRÁVIDA")|stringr::str_detect(toupper(dataset$outrasCondicoes),"GRAVIDEZ")]<-1
-
-#dataset$gest[is.na(dataset$condicoes)]<-0
-#dataset$outras_como<-0
-#dataset$outras_como[dataset$cardiopatia==0&dataset$obesidade==0&dataset$obesidade==0&dataset$dm==0&dataset$rc==0&dataset$drespc==0&is.na(dataset$condicoes)==F&dataset$gest==0]<-1
-#dataset$outras_como[is.na(dataset$condicoes)]<-0
-dataset$febre<-0
-dataset$febre[stringr::str_detect(dataset$sintomas,"ebre")]<-1
-dataset$febre[stringr::str_detect(toupper(dataset$outrosSintomas),"FEBRE")]<-1
-
-#dataset$febre[is.na(dataset$sintomas)]<-NA
-dataset$coriza<-0
-dataset$coriza[stringr::str_detect(dataset$sintomas,"Coriza")]<-1
-dataset$coriza[stringr::str_detect(toupper(dataset$outrosSintomas),"CORIZA")]<-1
-
-#dataset$coriza[is.na(dataset$sintomas)]<-NA
-dataset$tosse<-0
-dataset$tosse[stringr::str_detect(dataset$sintomas,"Tosse")]<-1
-dataset$tosse[stringr::str_detect(toupper(dataset$outrosSintomas),"TOSSE")]<-1
-
-#dataset$tosse[is.na(dataset$sintomas)]<-NA
-dataset$dispneia<-0
-dataset$dispneia[stringr::str_detect(dataset$sintomas,"Dispneia")]<-1
-dataset$dispneia[stringr::str_detect(toupper(dataset$outrosSintomas),"DISPNEIA")]<-1
-dataset$dispneia[stringr::str_detect(toupper(dataset$outrosSintomas),"DISPNÉIA")]<-1
-dataset$dispneia[stringr::str_detect(toupper(dataset$outrosSintomas),"DISPNÉIA")]<-1
-
-dataset$assintomatico<-0
-dataset$assintomatico[stringr::str_detect(dataset$sintomas,"Assintomático")]<-1
-
-#dataset$dispneia[is.na(dataset$sintomas)]<-NA
-dataset$garganta<-0
-dataset$garganta[stringr::str_detect(dataset$sintomas,"Garganta")]<-1
-#dataset$garganta[is.na(dataset$sintomas)]<-NA
-dataset$cefaleia<-0
-dataset$cefaleia[stringr::str_detect(dataset$sintomas,"Cabe")]<-1
-#dataset$cefaleia[is.na(dataset$sintomas)]<-NA
-dataset$outro_sin<-0
-dataset$outro_sin[stringr::str_detect(dataset$sintomas,"Outro")]<-1
-#dataset$outro_sin[is.na(dataset$sintomas)]<-NA
-
-
-
-dataset$dataInicioSintomas<-ex_date(dataset$dataInicioSintomas)
-dataset$dataInicioSintomas<-str_replace(dataset$dataInicioSintomas,"20-","2020-")
-dataset$dataInicioSintomas<-str_replace(dataset$dataInicioSintomas,"21-","2021-")
-dataset$dataInicioSintomas<-str_replace(dataset$dataInicioSintomas,"22-","2022-")
-dataset$dataInicioSintomas<-str_replace(dataset$dataInicioSintomas,"23-","2023-")
-dataset$ano_sin<-lubridate::year((dataset$dataInicioSintomas))
-dataset$mes_sin<-lubridate::month(dataset$dataInicioSintomas)
-dataset$capital<-0
-dataset$capital[stringr::str_detect(dataset$municipio,"aneiro")]<-1
-#dataset$capital[is.na(dataset$municipio)]<-NA
-dataset$recebeuVacina<- (as.character(dataset$codigoDosesVacina))
-dataset$recebeuVacina[str_detect(dataset$recebeuVacina,"5")]<-5
-dataset$recebeuVacina[str_detect(dataset$recebeuVacina,"4")]<-4
-dataset$recebeuVacina[str_detect(dataset$recebeuVacina,"3")]<-3
-dataset$recebeuVacina[str_detect(dataset$recebeuVacina,"2")]<-2
-dataset$recebeuVacina[str_detect(dataset$recebeuVacina,"1")]<-1
-dataset$recebeuVacina[str_detect(dataset$recebeuVacina,"0")]<-0
-dataset$recebeuVacina[as.character(dataset$codigoRecebeuVacina)==2]<-0
-dataset$recebeuVacina[dataset$recebeuVacina=="list()"]<-NA
-dataset$sexo[dataset$sexo=="Indefinido"]<-NA
-dataset$sexo[dataset$sexo=="Nao informar"]<-NA
-dataset$sexo[dataset$sexo=="Feminino"]<-0
-dataset$sexo[dataset$sexo=="Masculino"]<-1
-
-
-dataset[ , colnames(dataset)] <- lapply(dataset[ , colnames(dataset)], as.character)
-
-
-a<-subset(dataset, select = c(id,tipoTeste1,tipoTeste2,tipoTeste3,dataTeste1,dataTeste2,dataTeste3,resultado1,resultado2,resultado3,estado1,estado2,estado3,sexo,outrosSintomas,condicoes,outrasCondicoes,estadoNotificacao,evolucaoCaso,municipio,classificacaoFinal,estado,sintomas,dataInicioSintomas,idade,estrangeiro,profissionalSaude,municipioNotificacaoIBGE,racaCor,dataNotificacao,n_testes,obito,interna,cardiopatia,obesidade,anosmia,dm,rc,drespc,gest,febre,coriza,tosse,dispneia,assintomatico,garganta,cefaleia,outro_sin,ano_sin,mes_sin,capital,recebeuVacina))
-
-a$tipoTeste1[str_detect(a$tipoTeste1,"ANT")]<-"ANTÍGENO"
-a$tipoTeste2[str_detect(a$tipoTeste2,"ANT")]<-"ANTÍGENO"
-a$tipoTeste3[str_detect(a$tipoTeste3,"ANT")]<-"ANTÍGENO"
-a$tipoTeste1[str_detect(a$tipoTeste1,"PCR")]<-"PCR"
-a$tipoTeste2[str_detect(a$tipoTeste2,"PCR")]<-"PCR"
-a$tipoTeste3[str_detect(a$tipoTeste3,"PCR")]<-"PCR"
-a$tipoTeste1[str_detect(a$tipoTeste1,"SORO")]<-"SOROLOGIA"
-a$tipoTeste2[str_detect(a$tipoTeste2,"SORO")]<-"SOROLOGIA"
-a$tipoTeste3[str_detect(a$tipoTeste3,"SORO")]<-"SOROLOGIA"
-a$tipoTeste1[str_detect(a$tipoTeste1,"LAMP")]<-"RT-LAMP"
-a$tipoTeste2[str_detect(a$tipoTeste2,"LAMP")]<-"RT-LAMP"
-a$tipoTeste3[str_detect(a$tipoTeste3,"LAMP")]<-"RT-LAMP"
-
-a$dataTeste1<-ex_date(a$dataTeste1)
-a$dataTeste1<-str_replace(a$dataTeste1,"20-","2020-")
-a$dataTeste1<-str_replace(a$dataTeste1,"21-","2021-")
-a$dataTeste1<-str_replace(a$dataTeste1,"22-","2022-")
-a$dataTeste1<-str_replace(a$dataTeste1,"23-","2023-")
-
-a$dataTeste2<-ex_date(a$dataTeste2)
-a$dataTeste2<-str_replace(a$dataTeste2,"20-","2020-")
-a$dataTeste2<-str_replace(a$dataTeste2,"21-","2021-")
-a$dataTeste2<-str_replace(a$dataTeste2,"22-","2022-")
-a$dataTeste2<-str_replace(a$dataTeste2,"23-","2023-")
-
-a$dataTeste3<-ex_date(a$dataTeste3)
-a$dataTeste3<-str_replace(a$dataTeste3,"20-","2020-")
-a$dataTeste3<-str_replace(a$dataTeste3,"21-","2021-")
-a$dataTeste3<-str_replace(a$dataTeste3,"22-","2022-")
-a$dataTeste3<-str_replace(a$dataTeste3,"23-","2023-")
-
-a$dataNotificacao<-as.Date(a$dataNotificacao)
-a$obito<-NULL
-a$evolucaoCaso<-NULL
-
-a$resultado1[str_detect(a$resultado1,"Detec")|str_detect(a$resultado1,'resultadoTeste = "Reagente"')]<-"positivo"
-a$resultado1[str_detect(a$resultado1,"Não")]<-"negativo"
-a$resultado1[str_detect(a$resultado1,"Incon")]<-"Inconclusivo"
-a$resultado1[str_detect(a$resultado1,"NULL")]<-"NA"
-
-a$resultado2[str_detect(a$resultado2,"Detec")|str_detect(a$resultado2,'resultadoTeste = "Reagente"')]<-"positivo"
-a$resultado2[str_detect(a$resultado2,"Não")]<-"negativo"
-a$resultado2[str_detect(a$resultado2,"Incon")]<-"Inconclusivo"
-a$resultado2[str_detect(a$resultado2,"NULL")]<-"NA"
-
-a$resultado3[str_detect(a$resultado3,"Detec")|str_detect(a$resultado3,'resultadoTeste = "Reagente"')]<-"positivo"
-a$resultado3[str_detect(a$resultado3,"Não")]<-"negativo"
-a$resultado3[str_detect(a$resultado3,"Incon")]<-"Inconclusivo"
-a$resultado3[str_detect(a$resultado3,"NULL")]<-"NA"
-
-a$estado1<-str_replace(a$estado1,'estadoTeste = ','' )
-a$estado1<-str_replace(a$estado1,'\\,',"" )
-a$estado1<-str_replace(a$estado1,'\\"',"" )
-a$estado1<-str_replace(a$estado1,'\\"' ,"" )
-
-a$estado2<-str_replace(a$estado2,'estadoTeste = ','' )
-a$estado2<-str_replace(a$estado2,'\\,',"" )
-a$estado2<-str_replace(a$estado2,'\\"',"" )
-a$estado2<-str_replace(a$estado2,'\\"' ,"" )
-
-a$estado3<-str_replace(a$estado3,'estadoTeste = ','' )
-a$estado3<-str_replace(a$estado3,'\\,',"" )
-a$estado3<-str_replace(a$estado3,'\\"',"" )
-a$estado3<-str_replace(a$estado3,'\\"' ,"" )
-
-a[ , colnames(a)] <- lapply(a[ , colnames(a)], as.character)
-
-
-a[a=='NULL']<-NA
-a[a==""]<-NA
-
-a1<-subset(a,select=c(id,tipoTeste1,dataTeste1,resultado1,estado1,sexo,outrosSintomas,condicoes,outrasCondicoes,estadoNotificacao,municipio,classificacaoFinal,estado,sintomas,dataInicioSintomas,idade,estrangeiro,profissionalSaude,municipioNotificacaoIBGE,racaCor,dataNotificacao,n_testes,interna,cardiopatia,obesidade,anosmia,dm,rc,drespc,gest,febre,coriza,tosse,dispneia,assintomatico,garganta,cefaleia,outro_sin,ano_sin,mes_sin,capital,recebeuVacina))
-a2<-subset(a,select=c(id,tipoTeste2,dataTeste2,resultado2,estado2,sexo,outrosSintomas,condicoes,outrasCondicoes,estadoNotificacao,municipio,classificacaoFinal,estado,sintomas,dataInicioSintomas,idade,estrangeiro,profissionalSaude,municipioNotificacaoIBGE,racaCor,dataNotificacao,n_testes,interna,cardiopatia,obesidade,anosmia,dm,rc,drespc,gest,febre,coriza,tosse,dispneia,assintomatico,garganta,cefaleia,outro_sin,ano_sin,mes_sin,capital,recebeuVacina))
-a3<-subset(a,select=c(id,tipoTeste3,dataTeste3,resultado3,estado3,sexo,outrosSintomas,condicoes,outrasCondicoes,estadoNotificacao,municipio,classificacaoFinal,estado,sintomas,dataInicioSintomas,idade,estrangeiro,profissionalSaude,municipioNotificacaoIBGE,racaCor,dataNotificacao,n_testes,interna,cardiopatia,obesidade,anosmia,dm,rc,drespc,gest,febre,coriza,tosse,dispneia,assintomatico,garganta,cefaleia,outro_sin,ano_sin,mes_sin,capital,recebeuVacina))
-
-colnames(a1)<-c('id','tipoTeste','dataTeste','resultado','estado','sexo','outrosSintomas','condicoes','outrasCondicoes','estadoNotificacao','municipio','classificacaoFinal','estado','sintomas','dataInicioSintomas','idade','estrangeiro','profissionalSaude','municipioNotificacaoIBGE','racaCor','dataNotificacao','n_testes','interna','cardiopatia','obesidade','anosmia','dm','rc','drespc','gest','febre','coriza','tosse','dispneia','assintomatico','garganta','cefaleia','outro_sin','ano_sin','mes_sin','capital','recebeuVacina')
-colnames(a2)<-c('id','tipoTeste','dataTeste','resultado','estado','sexo','outrosSintomas','condicoes','outrasCondicoes','estadoNotificacao','municipio','classificacaoFinal','estado','sintomas','dataInicioSintomas','idade','estrangeiro','profissionalSaude','municipioNotificacaoIBGE','racaCor','dataNotificacao','n_testes','interna','cardiopatia','obesidade','anosmia','dm','rc','drespc','gest','febre','coriza','tosse','dispneia','assintomatico','garganta','cefaleia','outro_sin','ano_sin','mes_sin','capital','recebeuVacina')
-colnames(a3)<-c('id','tipoTeste','dataTeste','resultado','estado','sexo','outrosSintomas','condicoes','outrasCondicoes','estadoNotificacao','municipio','classificacaoFinal','estado','sintomas','dataInicioSintomas','idade','estrangeiro','profissionalSaude','municipioNotificacaoIBGE','racaCor','dataNotificacao','n_testes','interna','cardiopatia','obesidade','anosmia','dm','rc','drespc','gest','febre','coriza','tosse','dispneia','assintomatico','garganta','cefaleia','outro_sin','ano_sin','mes_sin','capital','recebeuVacina')
-
-a<-rbind(a1,a2,a3)
-a$classificacaoFinal<-NULL
-
-a<-subset(a,is.na(a$dataTeste)| a$dataTeste > Sys.Date()-7)
-a<-distinct(a)
-a[a=="NA"]<-NA
-a$resultado[a$resultado=="Inconclusivo"]<-NA
-
-a$racaCor[a$racaCor=="Amarela"]<-3
-a$racaCor[a$racaCor=="Branca"]<-1
-a$racaCor[a$racaCor=="Branco"]<-1
-a$racaCor[a$racaCor=="Ignorado"]<-NA
-a$racaCor[a$racaCor=="Parda"]<-4
-a$racaCor[a$racaCor=="Preta"]<-2
-a$racaCor[str_detect(a$racaCor,"Ind")]<-5
-a$racaCor<-as.character(a$racaCor)
-
-a$confirmado<-'0'
-a$confirmado[a$resultado=="positivo"&a$tipoTeste=="ANTÍGENO"]<-'1'
-a$confirmado[a$resultado=="positivo"&a$tipoTeste=="PCR"]<-'1'
-a$confirmado[a$resultado=="positivo"&a$tipoTeste=="RT-LAMP"]<-'1'
-a<-arrange(a,desc(a$resultado))
-a<-arrange(a,desc(a$confirmado))
-a<-distinct(a,a$id,.keep_all = T)
-a$confirmado<-as.numeric(a$confirmado)
-a$idade<-as.numeric(a$idade)
-a$semvacina<-a$recebeuVacina
-a$semvacina[a$recebeuVacina>=1]<-'0'
-a$semvacina[a$recebeuVacina<1]<-'1'
-
-
-r<- subset(a,select = c(sexo,idade,estrangeiro,profissionalSaude,racaCor,cardiopatia,obesidade,anosmia,dm,rc,drespc,gest,febre,coriza,tosse,dispneia,assintomatico,garganta,cefaleia,capital,confirmado,semvacina,recebeuVacina))
-r$raca2<-r$racaCor
-r$raca2[r$racaCor!="1"]<-"Não branca"
-r$raca2[r$racaCor=="1"]<-"Branca"
 
 junto
                   }
