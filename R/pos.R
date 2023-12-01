@@ -87,8 +87,8 @@ pos<-function(){
 
                      'resultado1',
                      'resultado2',
-                     'dataTeste3',
-                                          'dataTeste4',
+                     'resultado3',
+                                          'resultado4',
 
                      'estado1',
                      'estado2',
