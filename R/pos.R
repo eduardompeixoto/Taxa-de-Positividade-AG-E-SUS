@@ -39,7 +39,7 @@ pos<-function(){
   }
   
   # Loop to fetch data for different date ranges
-  data_frames <- lapply(1:7, function(days_back) {
+  data_frames <- lapply(1:4, function(days_back) {
     query <- sprintf('{
     "size": 10000,
     "query": {
